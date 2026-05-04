@@ -1,0 +1,187 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --- ENUMS (Definiții fixe) ---
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ProjectVisibility {
+  PRIVATE
+  PUBLIC
+  SHARED
+}
+
+enum RoomType {
+  LIVING_ROOM
+  MASTER_BEDROOM
+  GUEST_BEDROOM
+  KITCHEN
+  DINING_ROOM
+  BATHROOM
+  KIDS_ROOM
+  OFFICE       // Sau HOME_OFFICE, depinde cum preferi, dar trebuie sa fim consistenti
+  ENTRYWAY
+  OUTDOOR
+  GARAGE
+  COMMERCIAL
+  OTHER
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// --- TABELE PRINCIPALE ---
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique // ID-ul din Clerk (obligatoriu pentru auth)
+  email         String    @unique
+  firstName     String?
+  lastName      String?
+  avatarUrl     String?
+  role          UserRole  @default(USER) // ADMIN sau USER
+  
+  bio           String?
+  website       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relații
+  projects      Project[]
+  comments      Comment[]
+  likes         Like[]
+  subscription  Subscription? // Pentru viitor (SaaS)
+}
+
+model Project {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  visibility  ProjectVisibility @default(PRIVATE)
+  
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  rooms       Room[]
+  fullVideoUrl String?          // Video concatenat pentru toată casa
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([userId])
+}
+
+model Room {
+  id            String    @id @default(cuid())
+  name          String    // ex: "Dormitor Matrimonial"
+  type          RoomType
+  
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Input Data
+  originalImage String?   // URL poză inițială
+  floorPlanUrl  String?   // URL schiță
+  width         Float?    // Dimensiuni în metri
+  length        Float?
+  height        Float?    @default(2.5)
+
+  // Output Data (Versiuni de design)
+  designs       Design[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Design {
+  id              String           @id @default(cuid())
+  roomId          String
+  room            Room             @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  
+  promptUsed      String           // Ce a cerut userul
+  style           String           // ex: "Cyberpunk"
+
+  baseImageUrl    String?          // Imaginea de baza
+  
+  // Rezultate Media
+  resultImageMain String?          // Imagine principală
+  resultImage360  String?          // Panoramă equirectangulară
+  resultVideoUrl  String?          // Video generat
+  
+  status          ProcessingStatus @default(PENDING) // Urmărește statusul generării AI
+  
+  // Future features: Detecție obiecte
+  furnitureItems  FurnitureItem[]
+  
+  // Social
+  likes           Like[]
+  comments        Comment[]
+
+  createdAt       DateTime         @default(now())
+}
+
+// --- TABELE PENTRU VIITOR (Future Proofing) ---
+
+model FurnitureItem {
+  id          String   @id @default(cuid())
+  designId    String
+  design      Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
+
+  name        String   // ex: "Canapea Gri"
+  category    String   // ex: "Sofa"
+  estimatedPrice Decimal?
+  shopLink    String?
+  productImageUrl String?
+  
+  // Poziționare 3D (dacă vei vrea să plasezi obiecte manual în viitor)
+  posX        Float?
+  posY        Float?
+  posZ        Float?
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  designId  String
+  design    Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  designId  String
+  design    Design   @relation(fields: [designId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, designId]) // Un user poate da like o singură dată per design
+}
+
+model Subscription {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id])
+  plan           String    // ex: "PRO", "FREE"
+  creditsBalance Int       @default(5) // Credite pentru generări AI
+  isActive       Boolean   @default(true)
+  expiresAt      DateTime?
+}
