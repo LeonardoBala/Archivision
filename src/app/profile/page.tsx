@@ -54,11 +54,11 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-white/20">
       <Navbar />
 
-      <main className="pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <main className="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         
         {/* HEADER */}
-        <div className="flex flex-col items-center text-center mb-16">
-            <div className="relative w-32 h-32 rounded-full p-1 border-2 border-white/10 mb-6">
+        <div className="flex flex-col items-center text-center mb-10 md:mb-16">
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full p-1 border-2 border-white/10 mb-5 md:mb-6">
                 <img src={user?.imageUrl} alt="Profile" className="w-full h-full object-cover rounded-full" />
                 
                 {/* MIC BADGE PENTRU PLAN (PRO/AGENCY) Suprapus pe avatar */}
@@ -71,13 +71,13 @@ export default function ProfilePage() {
                 )}
             </div>
 
-            <h1 className="text-4xl font-bold text-white mb-2 tracking-tight mt-2">
+            <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 tracking-tight mt-2">
                 {dbUser?.firstName 
                   ? `${dbUser.firstName} ${dbUser.lastName || ''}` 
                   : (user?.fullName || 'Architect')}
             </h1>
             
-            <div className="flex items-center gap-4 text-zinc-400 text-sm mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 text-zinc-400 text-sm mb-6 md:mb-8">
                 <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> Romania</span>
                 <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" /> Joined {user?.createdAt ? new Date(user.createdAt).getFullYear() : '2025'}

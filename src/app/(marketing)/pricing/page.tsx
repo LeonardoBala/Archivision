@@ -39,15 +39,15 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
   return (
-    <div className="min-h-screen bg-zinc-950 pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-zinc-950 pt-24 md:pt-32 pb-20 px-4 md:px-6">
         <Navbar />
         <div className="max-w-7xl mx-auto">
             {/* --- HEADER --- */}
-            <div className="text-center mb-20">
-            <h1 className="text-5xl md:text-6xl font-medium text-white tracking-tight mb-6">
+            <div className="text-center mb-12 md:mb-20">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-medium text-white tracking-tight mb-4 md:mb-6">
                 Plans for every stage of design.
             </h1>
-            <p className="text-xl text-zinc-400 mb-10 max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-zinc-400 mb-8 md:mb-10 max-w-2xl mx-auto">
                 Whether you're renovating a single room or managing multiple client projects, we have a plan that scales with you.
             </p>
 

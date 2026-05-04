@@ -31,12 +31,12 @@ export default function CreationStepLayout({
       
       {/* 1. SCROLLABLE CONTENT AREA */}
       {/* Folosim max-w-6xl constant si padding egal (px-12) */}
-      <div className="flex-1 w-full max-w-6xl mx-auto px-6 md:px-12 pt-10 pb-32 animate-in fade-in slide-in-from-right-4 duration-500">
+      <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-12 pt-6 md:pt-10 pb-32 animate-in fade-in slide-in-from-right-4 duration-500">
         
         {/* Header Standardizat */}
-        <div className="mb-10 max-w-3xl">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">{title}</h2>
-            <p className="text-zinc-400 text-lg leading-relaxed">
+        <div className="mb-8 max-w-3xl">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-3 text-white tracking-tight">{title}</h2>
+            <p className="text-zinc-400 text-base md:text-lg leading-relaxed">
                 {description}
             </p>
         </div>
@@ -49,8 +49,8 @@ export default function CreationStepLayout({
 
       {/* 2. FIXED BOTTOM BAR (Sticky Footer) */}
       {/* Fixat jos, dar respectă sidebar-ul din stânga (md:left-80) */}
-      <div className="fixed bottom-0 right-0 left-0 md:left-80 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 p-6 z-50">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="fixed bottom-0 right-0 left-0 md:left-80 bg-zinc-950/80 backdrop-blur-xl border-t border-white/5 px-4 py-4 md:p-6 z-50">
+        <div className="max-w-6xl mx-auto px-0 md:px-12 flex items-center justify-between">
             
             {/* Back Button */}
             <button 

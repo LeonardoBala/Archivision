@@ -148,7 +148,7 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
   return (
     <div className="min-h-screen bg-zinc-950 text-white pb-32">
       {/* HEADER FIX */}
-      <div className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5 px-6 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-white/5 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-4">
           <Link href={`/project/${projectId}`} className="p-2.5 bg-zinc-900 rounded-full hover:bg-zinc-800 hover:text-white text-zinc-400 transition-colors">
             <ChevronLeft className="w-5 h-5" />
@@ -164,11 +164,12 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
           className="flex items-center gap-2 bg-white text-black px-6 py-2.5 rounded-full font-bold hover:bg-zinc-200 transition-all shadow-lg shadow-white/5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
-          {isSubmitting ? "Generating..." : "Generate Room"}
+          <span className="hidden sm:inline">{isSubmitting ? "Generating..." : "Generate Room"}</span>
+          <span className="sm:hidden">{isSubmitting ? "..." : "Generate"}</span>
         </button>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 py-10 space-y-16">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-10 space-y-12 md:space-y-16">
         <input type="file" ref={photoInputRef} className="hidden" accept="image/*" multiple onChange={handlePhotoUpload} />
 
         {/* 1. UPLOAD SECTION */}
@@ -188,7 +189,7 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
               {formData.uploadedImages.map((img, idx) => (
                 <div key={idx} className="relative group aspect-video rounded-2xl overflow-hidden border border-white/10 bg-zinc-900 shadow-xl">
                   <img src={img} alt={`Input ${idx}`} className="w-full h-full object-cover" />
-                  <button onClick={() => removeImage(idx)} className="absolute top-2 right-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all">
+                  <button onClick={() => removeImage(idx)} className="absolute top-2 right-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

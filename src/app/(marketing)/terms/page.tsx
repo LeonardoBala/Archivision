@@ -98,8 +98,8 @@ export default function TermsPage() {
 
       <div className="fixed -bottom-64 -right-64 w-[1000px] h-[1000px] bg-white/[0.02] rounded-full blur-[200px] pointer-events-none -z-10 hidden md:block" />
 
-      <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 md:pt-40 pb-32">
-      <div className="flex flex-row items-start gap-12 relative">
+      <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-40 pb-32">
+      <div className="flex flex-row items-start gap-8 lg:gap-12 relative">
 
         {/* Left Sidebar */}
         <aside className="hidden md:block w-48 lg:w-56 shrink-0 sticky top-32 h-fit">

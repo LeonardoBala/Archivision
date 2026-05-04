@@ -112,11 +112,11 @@ export default function SettingsPage() {
       
       <Navbar />
 
-      <main className="pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-        
+      <main className="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
+
         {/* Header */}
-        <div className="mb-12 flex items-center gap-4">
-            <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl">
+        <div className="mb-8 md:mb-12 flex items-center gap-4">
+            <div className="h-12 w-12 md:h-16 md:w-16 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl flex-shrink-0">
                 <img 
                     src={clerkUser?.imageUrl} 
                     alt="Profile" 
@@ -124,18 +124,18 @@ export default function SettingsPage() {
                 />
             </div>
             <div>
-                <h1 className="text-3xl font-bold tracking-tight text-white">
+                <h1 className="text-xl md:text-3xl font-bold tracking-tight text-white">
                     {formData.firstName || 'User'} / <span className="text-zinc-500 capitalize">{activeTab}</span>
                 </h1>
                 <p className="text-zinc-500 mt-1">Manage your account settings and preferences.</p>
             </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-12">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-12">
 
             {/* --- SIDEBAR NAVIGATION --- */}
             <aside className="w-full md:w-64 flex-shrink-0">
-                <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-4 md:pb-0 scrollbar-hide">
+                <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                     <SidebarItem 
                         icon={<User size={18} />} 
                         label="General" 

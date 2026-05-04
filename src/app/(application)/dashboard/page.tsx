@@ -60,13 +60,11 @@ export default async function DashboardPage() {
   return (
     <div className="flex min-h-screen bg-zinc-950 text-white">
 
-      {/* Sidebar */}
-      <div className="w-64 fixed left-0 top-0 h-full border-r border-white/5 bg-zinc-950 z-10 hidden md:block">
-        <Sidebar />
-      </div>
+      {/* Sidebar — renders hamburger on mobile, fixed panel on desktop */}
+      <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 md:ml-64 p-8 min-h-screen">
+      <main className="flex-1 md:ml-64 px-4 pt-20 pb-8 md:p-8 min-h-screen">
         <div className="max-w-7xl mx-auto space-y-12 pb-20">
 
           {/* Header */}
@@ -80,7 +78,7 @@ export default async function DashboardPage() {
           </div>
 
           {/* New Project Hero */}
-          <div className="relative group overflow-hidden rounded-3xl bg-zinc-900 border border-white/10 p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-white/20 transition-all">
+          <div className="relative group overflow-hidden rounded-2xl md:rounded-3xl bg-zinc-900 border border-white/10 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5 md:gap-6 hover:border-white/20 transition-all">
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-white/15 transition-all" />
 
             <div className="relative z-10 max-w-lg">

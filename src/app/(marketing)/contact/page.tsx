@@ -31,7 +31,7 @@ export default function ContactPage() {
       {/* Background glow */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-white/[0.025] rounded-full blur-[180px] pointer-events-none -z-10" />
 
-      <main className="pt-40 pb-32 px-4 sm:px-6">
+      <main className="pt-28 md:pt-40 pb-20 md:pb-32 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
 
           {/* Breadcrumb */}

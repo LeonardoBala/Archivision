@@ -40,13 +40,11 @@ export default async function MyProjectsPage() {
     // Container principal Flex (Stessa struttura della Dashboard)
     <div className="flex min-h-screen bg-zinc-950 text-white">
       
-      {/* --- SIDEBAR (Fixat stânga) --- */}
-      <div className="w-64 fixed left-0 top-0 h-full border-r border-white/5 bg-zinc-950 z-10 hidden md:block">
-         <Sidebar />
-      </div>
+      {/* Sidebar — renders hamburger on mobile, fixed panel on desktop */}
+      <Sidebar />
 
-      {/* --- MAIN CONTENT (Dreapta) --- */}
-      <main className="flex-1 md:ml-64 p-8 min-h-screen">
+      {/* --- MAIN CONTENT --- */}
+      <main className="flex-1 md:ml-64 px-4 pt-20 pb-8 md:p-8 min-h-screen">
         
         {/* Container centrato che crea lo spazio equo ai lati */}
         <div className="max-w-7xl mx-auto space-y-12 pb-20">
