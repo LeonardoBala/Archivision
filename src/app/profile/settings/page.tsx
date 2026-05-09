@@ -135,7 +135,7 @@ export default function SettingsPage() {
 
             {/* --- SIDEBAR NAVIGATION --- */}
             <aside className="w-full md:w-64 flex-shrink-0">
-                <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible pb-2 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <nav className="flex flex-wrap md:flex-nowrap md:flex-col gap-2 pb-2 md:pb-0">
                     <SidebarItem 
                         icon={<User size={18} />} 
                         label="General" 
@@ -427,12 +427,12 @@ interface SidebarItemProps {
 
 function SidebarItem({ icon, label, active = false, onClick }: SidebarItemProps) {
     return (
-        <button 
+        <button
             onClick={onClick}
             className={`
-            flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-full text-left
-            ${active 
-                ? 'bg-white text-black shadow-lg shadow-white/5' 
+            flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-auto md:w-full flex-shrink-0 whitespace-nowrap text-left
+            ${active
+                ? 'bg-white text-black shadow-lg shadow-white/5'
                 : 'text-zinc-500 hover:text-white hover:bg-white/5'
             }
         `}>

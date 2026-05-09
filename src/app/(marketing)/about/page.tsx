@@ -82,7 +82,7 @@ export default function AboutPage() {
                     </h1>
                 </div>
 
-                <div className="relative z-10 mt-12 w-full max-w-3xl h-[600px] md:h-[800px]">
+                <div className="relative z-10 mt-12 w-full max-w-3xl h-[380px] md:h-[800px]">
                     <div 
                         className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_0_150px_rgba(0,0,0,0.9)]" 
                         style={{ 
@@ -206,14 +206,13 @@ export default function AboutPage() {
 
                     </div>
 
-                    {/* CTA - Am modificat mt-20 în mt-32 md:mt-48 pentru un spațiu aerisit */}
-                    <div className="mt-32 md:mt-48 border-t border-white/10 pt-20 flex flex-col md:flex-row justify-between items-end gap-10">
+                    <div className="mt-32 md:mt-48 border-t border-white/10 pt-16 flex flex-col items-center text-center md:flex-row md:items-end md:justify-between md:text-left gap-6">
                         <div>
-                            <h2 className="text-5xl font-bold tracking-tighter mb-2">JOIN US.</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-2">JOIN US.</h2>
                             <p className="text-zinc-500">Be part of the new design era.</p>
                         </div>
-                        <Link href="/careers" className="group flex items-center gap-4 text-white text-xl hover:opacity-70 transition-opacity">
-                            View open positions <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                        <Link href="/careers" className="group inline-flex items-center gap-3 bg-white text-black px-6 py-3 rounded-full font-medium text-sm hover:bg-zinc-200 transition-colors md:bg-transparent md:text-white md:px-0 md:py-0 md:rounded-none md:font-normal md:text-xl md:hover:bg-transparent md:hover:opacity-70">
+                            View open positions <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
 

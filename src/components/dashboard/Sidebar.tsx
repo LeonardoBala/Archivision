@@ -41,7 +41,7 @@ export default function Sidebar() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
+              className={`flex items-center gap-3 px-3 py-3 md:py-2.5 rounded-xl text-sm font-medium transition-all
                 ${isActive
                   ? 'bg-white text-black shadow-lg shadow-white/5'
                   : 'text-zinc-400 hover:text-white hover:bg-white/5'}`}
@@ -53,14 +53,14 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 border-t border-white/5 pb-8 md:pb-4">
         <div className="flex items-center gap-2">
           <Link
             href="/profile"
             onClick={() => setMobileOpen(false)}
             className="flex-1 flex items-center gap-3 p-2 rounded-xl hover:bg-white/5 transition-all group overflow-hidden"
           >
-            <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/10 group-hover:border-white/50 transition-colors flex-shrink-0">
+            <div className="relative w-9 h-9 md:w-8 md:h-8 rounded-full overflow-hidden border border-white/10 group-hover:border-white/50 transition-colors flex-shrink-0">
               {user?.imageUrl ? (
                 <img src={user.imageUrl} alt="User" className="w-full h-full object-cover" />
               ) : (
@@ -78,7 +78,7 @@ export default function Sidebar() {
           </Link>
           <button
             onClick={() => signOut({ redirectUrl: '/' })}
-            className="p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+            className="p-2.5 md:p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
             title="Sign Out"
           >
             <LogOut size={18} />
@@ -90,38 +90,46 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile: hamburger trigger */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2.5 bg-zinc-900 border border-white/10 rounded-xl text-white shadow-lg"
-        aria-label="Open menu"
-      >
-        <Menu className="w-5 h-5" />
-      </button>
+      {/* Mobile Top Navigation Bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-zinc-950/80 backdrop-blur-md border-b border-white/5 z-40 flex items-center justify-between px-4">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-white text-zinc-950 rounded-full flex items-center justify-center">
+            <Layers className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-white font-bold tracking-tight">ArchiVision</span>
+        </Link>
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
 
-      {/* Mobile: backdrop */}
+      {/* Mobile Backdrop */}
       <div
-        className={`md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300
+        className={`md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-300
           ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setMobileOpen(false)}
       />
 
-      {/* Mobile: slide-out drawer */}
+      {/* Mobile Slide-out Drawer */}
       <div
-        className={`md:hidden fixed top-0 left-0 h-full w-72 bg-zinc-950 border-r border-white/10 z-50 flex flex-col
-          transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`md:hidden fixed top-0 left-0 h-full w-[80%] max-w-[300px] bg-zinc-950 border-r border-white/10 z-50 flex flex-col
+          transition-transform duration-300 ease-in-out ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <button
           onClick={() => setMobileOpen(false)}
-          className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors z-50"
           aria-label="Close menu"
         >
-          <X className="w-5 h-5" />
+          <X className="w-6 h-6" />
         </button>
         <NavContent />
       </div>
 
-      {/* Desktop: fixed sidebar */}
+      {/* Desktop Fixed Sidebar */}
       <aside className="hidden md:flex w-64 h-screen bg-zinc-950 border-r border-white/10 flex-col fixed left-0 top-0 z-40">
         <NavContent />
       </aside>

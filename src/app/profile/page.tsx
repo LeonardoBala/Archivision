@@ -98,7 +98,7 @@ export default function ProfilePage() {
                         <Edit3 className="w-4 h-4" /> Edit Profile
                     </button>
                 </Link>
-                <Link href="/dashboard/create">
+                <Link href="/create">
                     <button className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black font-bold hover:bg-zinc-200 transition-all">
                         <Plus className="w-4 h-4" /> New Project
                     </button>
@@ -164,7 +164,7 @@ export default function ProfilePage() {
                             <p className="text-zinc-500 max-w-md text-center mb-8">
                                 You don't have any projects yet. Start creating to show off your best interior designs.
                             </p>
-                            <Link href="/dashboard/create">
+                            <Link href="/create">
                                 <button className="bg-white text-black px-8 py-3 rounded-full font-bold hover:bg-zinc-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                                     Create New Project
                                 </button>

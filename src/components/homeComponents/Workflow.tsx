@@ -39,7 +39,7 @@ export default function Workflow() {
 
                   {/* VIDEOCLIPUL */}
                   <video 
-                    src="/VideoDemo2.mp4" 
+                    src="/DemoVideo.mp4" 
                     autoPlay 
                     loop 
                     muted 

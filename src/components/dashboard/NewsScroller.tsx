@@ -13,6 +13,7 @@ interface NewsItem {
 }
 
 const NEWS: NewsItem[] = [
+  // ... (keep your existing NEWS array items exactly the same)
   {
     id: 1,
     title: 'Living Walls & Biophilic Design Are Reshaping Modern Interiors',
@@ -45,41 +46,8 @@ const NEWS: NewsItem[] = [
     category: 'Technology',
     image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500&q=80&auto=format&fit=crop',
   },
-  {
-    id: 5,
-    title: "Curved Silhouettes: The Soft Furniture Trend That Won't Stop",
-    source: 'House Beautiful',
-    date: 'Apr 5',
-    category: 'Furniture',
-    image: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=500&q=80&auto=format&fit=crop',
-  },
-  {
-    id: 6,
-    title: 'Quiet Luxury at Home: The Understated Elegance Movement',
-    source: 'Vogue Living',
-    date: 'Apr 3',
-    category: 'Style',
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=500&q=80&auto=format&fit=crop',
-  },
-  {
-    id: 7,
-    title: 'Sustainable Materials: Designers Embrace Raw Textures in 2026',
-    source: 'AD Pro',
-    date: 'Apr 1',
-    category: 'Sustainability',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80&auto=format&fit=crop',
-  },
-  {
-    id: 8,
-    title: 'Dark Academia Interiors: The Moody Aesthetic Taking Over',
-    source: 'Interior Design',
-    date: 'Mar 29',
-    category: 'Trends',
-    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&q=80&auto=format&fit=crop',
-  },
 ];
 
-// Duplicate for seamless infinite loop
 const ITEMS = [...NEWS, ...NEWS];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -99,26 +67,24 @@ export default function NewsScroller() {
 
   return (
     <section>
-      <div className="mb-6">
+      <div className="mb-5 md:mb-6">
         <h2 className="text-xl font-bold text-white">Latest in Design</h2>
         <p className="text-zinc-500 text-sm mt-1">What's happening in the world of interior design.</p>
       </div>
 
-      {/* Overflow mask */}
       <div
-        className="overflow-hidden relative"
+        className="overflow-hidden relative -mx-4 px-4 md:mx-0 md:px-0"
         onMouseEnter={pause}
         onMouseLeave={resume}
+        onTouchStart={pause} // Prevents moving under user's thumb
+        onTouchEnd={resume}
       >
-        {/* Left fade */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-zinc-950 to-transparent z-10" />
-        {/* Right fade */}
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-zinc-950 to-transparent z-10" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-r from-zinc-950 to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 md:w-16 bg-gradient-to-l from-zinc-950 to-transparent z-10" />
 
-        {/* Scrolling track */}
         <div
           ref={trackRef}
-          className="flex gap-4"
+          className="flex gap-3 md:gap-4"
           style={{
             width: 'max-content',
             animation: 'scroll-news 50s linear infinite',
@@ -127,10 +93,9 @@ export default function NewsScroller() {
           {ITEMS.map((item, i) => (
             <div
               key={`${item.id}-${i}`}
-              className="w-72 shrink-0 rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 hover:border-white/15 transition-all duration-300 group cursor-pointer"
+              className="w-64 md:w-72 shrink-0 rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 hover:border-white/15 transition-all duration-300 group cursor-pointer"
             >
-              {/* Image */}
-              <div className="aspect-video w-full overflow-hidden bg-zinc-800">
+              <div className="aspect-[16/9] w-full overflow-hidden bg-zinc-800">
                 <img
                   src={item.image}
                   alt={item.title}
@@ -138,10 +103,9 @@ export default function NewsScroller() {
                 />
               </div>
 
-              {/* Content */}
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2.5">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${CATEGORY_COLORS[item.category] ?? 'bg-white/10 text-zinc-300'}`}>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${CATEGORY_COLORS[item.category] ?? 'bg-white/10 text-zinc-300'}`}>
                     {item.category}
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 text-zinc-600 group-hover:text-zinc-400 transition-colors" />

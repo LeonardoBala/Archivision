@@ -153,6 +153,9 @@ export default function Navbar() {
                   <Link href="/dashboard" onClick={() => setIsMobileOpen(false)} className="text-lg text-zinc-400 hover:text-white font-medium py-2 flex items-center gap-2">
                     Dashboard
                   </Link>
+                  <Link href="/my-projects" onClick={() => setIsMobileOpen(false)} className="text-lg text-zinc-400 hover:text-white font-medium py-2 flex items-center gap-2">
+                    My Projects
+                  </Link>
                 </SignedIn>
                 <Link href="/about" onClick={() => setIsMobileOpen(false)} className="text-lg text-zinc-400 hover:text-white font-medium py-2">About</Link>
                 <Link href="/pricing" onClick={() => setIsMobileOpen(false)} className="text-lg text-zinc-400 hover:text-white font-medium py-2">Pricing</Link>
