@@ -7,7 +7,9 @@ const prisma = new PrismaClient();
 
 const GOOGLE_AUTH = new GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-  keyFilename: 'service-account-key-1.json',
+  ...(process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+    ? { credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON) }
+    : { keyFilename: 'service-account-key-1.json' }),
 });
 
 const PROJECT_ID = process.env.GOOGLE_CLOUD_PROJECT_ID || "effective-time-479615-m3";

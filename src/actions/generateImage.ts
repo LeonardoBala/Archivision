@@ -6,7 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 const GOOGLE_AUTH = new GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-  keyFilename: 'service-account-key-1.json', 
+  ...(process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+    ? { credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON) }
+    : { keyFilename: 'service-account-key-1.json' }),
 });
 
 // Using global to get easy acces to the model
