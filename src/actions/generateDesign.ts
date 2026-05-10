@@ -15,7 +15,6 @@ import { extractFurniture } from "./extractFurniture";
 const prisma = new PrismaClient();
 
 // Funzione di utilità per creare pause (previene l'errore 429 Quota Exhausted)
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 type GenerateResponse = 
   | { success: true; projectId: string; roomId: string; designIds: string[] }
@@ -83,9 +82,9 @@ export async function generateDesignAction(formData: any): Promise<GenerateRespo
          - The vanishing points and perspective lines must be identical to the input.
 
       2. ARCHITECTURAL SHELL — DO NOT TOUCH:
-         - Windows: same count, same position on the wall, same width and height, same shape.
-           Do NOT turn a standard window into floor-to-ceiling glass. Do NOT widen or narrow any opening.
-         - Doors: same count, same position, same size.
+         - Windows: FREEZE every window exactly. Same count, same wall position, same pixel width and height, same shape (rectangular stays rectangular). Do NOT enlarge, shrink, move, or remove any window. Do NOT convert a standard window into a floor-to-ceiling one.
+         - Doors & openings: FREEZE every door and open doorway exactly. Same count, same wall position, same size. Open archways or doorways without a door must remain fully open — do NOT fill them with a wall, furniture, or any object.
+         - FURNITURE CLEARANCE RULE: No piece of furniture may overlap or block any window or doorway. Keep at least 60 cm of clearance in front of every door and window so they remain fully visible in the output.
          - Ceiling height: must appear identical to the original photo.
          - Wall lengths and room depth: must remain unchanged.
          - Structural columns, beams, radiators, or pipes: keep them, only repaint/refinish if needed.
@@ -164,19 +163,6 @@ export async function generateDesignAction(formData: any): Promise<GenerateRespo
 
     `;
 
-    // PROMPT 2: Il "Reference Prompt" rigido (usato per le foto successive)
-    const referencePrompt = `
-      Edit the provided image. This is a NEW CAMERA ANGLE of a room we are currently designing.
-      
-      CRITICAL INSTRUCTION FOR CONSISTENCY:
-      I am providing a history of previously generated images. You MUST replicate the EXACT SAME furniture, textures, and color palette ("${colorLabel}") from the previous designs into this new camera angle.
-
-      - Do NOT invent new furniture styles.
-      - If there was a specific furniture item in the first image, show that EXACT same item from this new angle.
-      - Maintain the "${styleLabel}" style strictly.
-      - Maintain the exact architectural shell (windows, doors, walls) of the new input photo.
-      - Keep photorealistic render quality.
-    `;
 
     // 5. UPLOAD IMMAGINE ORIGINALE SU SUPABASE
     let finalOriginalImageUrl = null;
@@ -206,33 +192,16 @@ export async function generateDesignAction(formData: any): Promise<GenerateRespo
     
     console.log(`Starting Sequential Generation for ${inputImagesBase64.length} images...`);
     
-    const generatedHistoryBase64: string[] = [];
     const generatedResults: { url: string, base64: string }[] = [];
 
-    for (let i = 0; i < inputImagesBase64.length; i++) {
-        const currentInputImage = inputImagesBase64[i];
-        console.log(`Processing image ${i + 1} of ${inputImagesBase64.length}...`);
+    const imageResult = await generateImageVertex(
+        masterPrompt,
+        dbUserId,
+        inputImagesBase64[0],
+        []
+    );
 
-        // Scegliamo il prompt in base al numero della foto
-        const isFirstImage = i === 0;
-        const currentPrompt = isFirstImage ? masterPrompt : referencePrompt;
-
-        const imageResult = await generateImageVertex(
-            currentPrompt, 
-            dbUserId,
-            currentInputImage, 
-            generatedHistoryBase64 
-        );
-
-        generatedHistoryBase64.push(imageResult.base64);
-        generatedResults.push(imageResult);
-
-        // Aspettiamo 20 secondi tra una foto e l'altra (tranne dopo l'ultima)
-        if (i < inputImagesBase64.length - 1) {
-            console.log("⏱️ Cooling down Google API for 20 seconds to prevent Quota limits...");
-            await delay(20000); 
-        }
-    }
+    generatedResults.push(imageResult);
 
     // =========================================================
     // 7. SALVATAGGIO NEL DATABASE
