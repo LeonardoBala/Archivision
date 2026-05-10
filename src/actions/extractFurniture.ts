@@ -7,8 +7,8 @@ const prisma = new PrismaClient();
 
 const GOOGLE_AUTH = new GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-  ...(process.env.GOOGLE_SERVICE_ACCOUNT_JSON
-    ? { credentials: JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON) }
+  ...(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
+    ? { credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) }
     : { keyFilename: 'service-account-key-1.json' }),
 });
 
