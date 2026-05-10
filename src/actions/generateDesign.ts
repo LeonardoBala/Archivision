@@ -8,6 +8,7 @@ import { roomOptions } from "@/lib/roomOptions";
 import { styleOptions } from "@/lib/styleOptions";
 import { moodOptions } from "@/lib/moodOptions";
 import { revalidatePath } from 'next/cache';
+import { after } from 'next/server';
 import { supabaseAdmin } from "@/lib/supabase";
 import { extractFurniture } from "./extractFurniture";
 
@@ -285,10 +286,12 @@ export async function generateDesignAction(formData: any): Promise<GenerateRespo
         });
         createdDesignIds.push(designId);
 
-        // 2. Extracting furniture in the BACKGROUND ✨
-        // We remove the 'await' and catch errors so it doesn't crash the main thread
-        extractFurniture(designId, generatedResults[i].url, formData.style).catch((err) => {
-            console.error(`Background furniture extraction failed for design ${designId}:`, err);
+        // 2. Extracting furniture AFTER response is sent ✨
+        // after() keeps the serverless function alive on Vercel until the callback finishes
+        after(async () => {
+            await extractFurniture(designId, generatedResults[i].url, formData.style).catch((err) => {
+                console.error(`Background furniture extraction failed for design ${designId}:`, err);
+            });
         });
     }
 
