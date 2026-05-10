@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { editDesignAction } from '@/actions/editDesign';
+import { styleOptions } from '@/lib/styleOptions';
 import { deleteRoomAction } from '@/actions/deleteRoom';
 import {
   ChevronLeft,
@@ -606,7 +607,7 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-white/20 pb-2">
                    <span className="text-white/60 text-sm flex items-center gap-2"><Palette className="w-4 h-4" /> Style</span>
-                   <span className="font-medium text-white">{currentDesign?.style || "N/A"}</span>
+                   <span className="font-medium text-white">{styleOptions.find(s => s.id === currentDesign?.style)?.label || currentDesign?.style || "N/A"}</span>
                 </div>
                 <div>
                    <span className="text-white/60 text-sm block mb-1">Atmosphere / Mood</span>

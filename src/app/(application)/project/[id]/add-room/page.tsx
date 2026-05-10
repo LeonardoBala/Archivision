@@ -4,7 +4,7 @@ import { useState, useRef, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
-  ChevronLeft, ImageIcon, Loader2, Trash2, Plus, Check, Wand2
+  ChevronLeft, ImageIcon, Loader2, Trash2, Check, Wand2
 } from 'lucide-react';
 
 // Importa i dati e la TUA azione unica aggiornata
@@ -85,7 +85,7 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
     setIsProcessingFiles(true);
     
     try {
-      const fileArray = Array.from(files).slice(0, 4 - formData.uploadedImages.length); // Max 4 poze
+      const fileArray = Array.from(files).slice(0, 1 - formData.uploadedImages.length); // Max 1 poza
       const base64Promises = fileArray.map(file => convertFileToBase64(file));
       const newImagesBase64 = await Promise.all(base64Promises);
 
@@ -170,7 +170,7 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
       </div>
 
       <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-10 space-y-12 md:space-y-16">
-        <input type="file" ref={photoInputRef} className="hidden" accept="image/*" multiple onChange={handlePhotoUpload} />
+        <input type="file" ref={photoInputRef} className="hidden" accept="image/*" onChange={handlePhotoUpload} />
 
         {/* 1. UPLOAD SECTION */}
         <section>
@@ -194,11 +194,6 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
                   </button>
                 </div>
               ))}
-              {formData.uploadedImages.length < 4 && (
-                <button onClick={() => photoInputRef.current?.click()} className="aspect-video rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 flex flex-col items-center justify-center gap-2 transition-all group">
-                  <Plus className="w-6 h-6 text-zinc-500 group-hover:text-white" />
-                </button>
-              )}
             </div>
           ) : (
              <button onClick={() => photoInputRef.current?.click()} className="w-full p-10 rounded-3xl border-2 border-dashed border-zinc-800 bg-zinc-900/30 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all flex flex-col items-center gap-4 text-center group h-48 justify-center">

@@ -81,10 +81,10 @@ export default function RecentDesigns({ designs }: { designs: RecentDesign[] }) 
 
             <div className="px-4 py-3.5 border-t border-white/5 bg-zinc-900 flex-1 flex flex-col justify-center">
               <p className="text-white font-semibold text-sm leading-tight truncate">
-                {design.style}
+                {design.roomName}
               </p>
               <p className="text-zinc-500 text-xs truncate mt-1">
-                {design.roomName} · {design.projectName}
+                {design.style} · {design.projectName}
               </p>
             </div>
           </Link>
