@@ -11,6 +11,7 @@ import { revalidatePath } from 'next/cache';
 import { after } from 'next/server';
 import { supabaseAdmin } from "@/lib/supabase";
 import { extractFurniture } from "./extractFurniture";
+import { generateNightVersionAction } from "./generateNightVersion";
 
 const prisma = new PrismaClient();
 
@@ -255,11 +256,16 @@ export async function generateDesignAction(formData: any): Promise<GenerateRespo
         });
         createdDesignIds.push(designId);
 
-        // 2. Extracting furniture AFTER response is sent ✨
-        // after() keeps the serverless function alive on Vercel until the callback finishes
+        // 2. Background tasks: furniture extraction + night version
         after(async () => {
             await extractFurniture(designId, generatedResults[i].url, formData.style).catch((err) => {
                 console.error(`Background furniture extraction failed for design ${designId}:`, err);
+            });
+        });
+
+        after(async () => {
+            await generateNightVersionAction(designId, generatedResults[i].url, dbUserId).catch((err) => {
+                console.error(`Background night version failed for design ${designId}:`, err);
             });
         });
     }

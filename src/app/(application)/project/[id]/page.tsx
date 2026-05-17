@@ -53,6 +53,7 @@ export default async function ProjectResultPage({ params }: PageProps) {
         id: d.id,
         style: d.style,
         resultImageMain: d.resultImageMain || "",
+        resultImageNight: d.resultImageNight || null,
         baseImageUrl: d.baseImageUrl || null,
         promptUsed: d.promptUsed,
         createdAt: d.createdAt,

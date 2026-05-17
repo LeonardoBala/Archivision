@@ -1,17 +1,17 @@
 'use client';
 
 import React from 'react';
-import { Image as ImageIcon, Video, Box, ShoppingBag, Layers, Lightbulb, MessageSquare, LayoutTemplate } from 'lucide-react';
+import { Image as ImageIcon, Sparkles, Palette, Sliders, ShoppingBag, FolderOpen, Lightbulb, RefreshCw } from 'lucide-react';
 
 const featuresList = [
-  { icon: ImageIcon, title: "Realistic Imagery with Imagen", desc: "Generate ultra-realistic room visualizations powered by Google's Imagen model. Precise textures and lighting." },
-  { icon: Video, title: "High-Res Video with Veo", desc: "Create stunning, high-resolution cinematic video tours of your designs using the power of Veo." },
-  { icon: Box, title: "Realistic 3D Vision", desc: "Explore your designed room in immersive 3D. Walk through the space before you build it." },
-  { icon: ShoppingBag, title: "Real Furniture Catalogue", desc: "Every item is real. Access a catalogue of purchasable furniture with direct links to vendors." },
-  { icon: Layers, title: "Smart Material Selection", desc: "AI suggests materials based on durability, cost, and style compatibility automatically." },
+  { icon: ImageIcon, title: "Photo & Blueprint Upload", desc: "Start from a room photo or a 2D blueprint. The AI understands both and transforms them into stunning designs." },
+  { icon: Sparkles, title: "AI Interior Rendering", desc: "Generate photorealistic redesigns of any room in seconds, powered by cutting-edge generative AI." },
+  { icon: Palette, title: "Curated Design Styles", desc: "From Minimalist to Bohemian, explore a library of curated styles and find the perfect aesthetic for your space." },
+  { icon: Sliders, title: "Color & Mood Palettes", desc: "Fine-tune the atmosphere of each room by choosing a color palette that guides lighting, materials, and tone." },
+  { icon: ShoppingBag, title: "Shoppable Furniture", desc: "Every item in your render is real. Browse the furniture catalogue with prices and direct links to vendors." },
+  { icon: FolderOpen, title: "Multi-Room Projects", desc: "Organize your work into projects. Design every room in a space and keep everything neatly in one place." },
   { icon: Lightbulb, title: "Lighting Simulation", desc: "Simulate natural and artificial lighting at different times of day to set the perfect mood." },
-  { icon: MessageSquare, title: "Client Collaboration", desc: "Streamline client interactions with built-in commenting and approval workflows directly on the design." },
-  { icon: LayoutTemplate, title: "Project Templates", desc: "Kickstart projects quickly with customizable templates for Residential, Commercial, or Studio spaces." }
+  { icon: RefreshCw, title: "Multiple Design Variations", desc: "Generate several design alternatives for the same room and compare them side by side before committing." },
 ];
 
 export default function Features() {

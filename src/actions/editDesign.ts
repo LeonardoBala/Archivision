@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { revalidatePath } from 'next/cache';
 import { editImageVertex } from "./editImage";
 import { extractFurniture } from './extractFurniture';
+import { generateNightVersionAction } from './generateNightVersion';
 
 const prisma = new PrismaClient();
 
@@ -52,9 +53,13 @@ export async function editDesignAction(
             }
         });
 
-        // 3.5 - Extragem mobila din noua imagine și o salvăm (opțional, dar util pentru funcții viitoare)
+        // 3.5 - Background tasks: furniture + night version
         extractFurniture(designId, imageResult.url, currentStyle).catch((err) => {
             console.error(`Background furniture extraction failed for edited design ${designId}:`, err);
+        });
+
+        generateNightVersionAction(designId, imageResult.url, dbUser.id).catch((err) => {
+            console.error(`Background night version failed for edited design ${designId}:`, err);
         });
 
         // 4. Actualizăm interfața (va face poza să apară automat în carusel)

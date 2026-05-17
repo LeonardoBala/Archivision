@@ -24,7 +24,9 @@ import {
   ShoppingBag,
   ExternalLink,
   Tag,
-  Loader2
+  Loader2,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -46,6 +48,7 @@ interface RoomData {
     id: string;
     style: string;
     resultImageMain: string;
+    resultImageNight: string | null;
     baseImageUrl: string | null;
     promptUsed: string;
     createdAt: Date;
@@ -77,6 +80,9 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isExportMenuOpen, setIsExportMenuOpen] = useState(false);
   const [showOriginal, setShowOriginal] = useState(false);
+
+  const [isNightMode, setIsNightMode] = useState(false);
+  const [isNightGenerating, setIsNightGenerating] = useState(false);
 
   const [isZoomToolActive, setIsZoomToolActive] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -115,9 +121,12 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
   const currentImage = currentDesign?.resultImageMain || "";
   const furnitureList = currentDesign?.furnitureItems || [];
 
+  const nightImage = currentDesign?.resultImageNight || null;
+  const activeImage = isNightMode && nightImage ? nightImage : currentImage;
+
   const imageToDisplay = showOriginal
     ? (currentRoom?.originalImage || currentDesign?.baseImageUrl || currentImage)
-    : currentImage;
+    : activeImage;
 
   // Auto-dismiss error toast after 4 seconds
   useEffect(() => {
@@ -159,6 +168,27 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
     }
   }, [isFurniturePanelOpen, furnitureList.length, refreshPage]);
 
+  // Polling: when night mode is active but the night image isn't ready yet,
+  // refresh every 5s until it arrives or 90s elapses.
+  useEffect(() => {
+    if (!isNightMode || currentDesign?.resultImageNight) {
+      setIsNightGenerating(false);
+      return;
+    }
+
+    setIsNightGenerating(true);
+    const interval = setInterval(refreshPage, 5000);
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+      setIsNightGenerating(false);
+    }, 90000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [isNightMode, currentDesign?.resultImageNight, refreshPage]);
+
 
   const resetTools = () => {
     setZoomLevel(1);
@@ -167,6 +197,7 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
     setShowZoomSlider(false);
     setIsMagicToolActive(false);
     setIsFurniturePanelOpen(false);
+    setIsNightMode(false);
     setPromptError(null);
     clearMask();
   };
@@ -524,9 +555,6 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2.5 rounded-full font-medium min-w-0 max-w-[160px] sm:max-w-none sm:min-w-[250px] justify-center ${glassClasses}`}
             >
-              <span className="text-white/70 font-normal hidden sm:inline">
-                {currentDesign?.style || "Style"} /
-              </span>
               <span className="font-bold truncate">{currentRoom?.name || "Room"}</span>
               <ChevronDown className={`w-4 h-4 shrink-0 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -756,6 +784,27 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
             title="Shop the Look"
           >
             <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* DAY / NIGHT TOGGLE */}
+          <div className="w-px h-6 bg-white/20 mx-1"></div>
+          <button
+            onClick={() => setIsNightMode(!isNightMode)}
+            disabled={isNightGenerating}
+            className={`relative p-3 rounded-xl transition-all group ${
+              isNightMode
+                ? 'bg-indigo-500/30 text-indigo-300 shadow-[inset_0_0_10px_rgba(99,102,241,0.4)]'
+                : 'hover:bg-white/20 text-white'
+            }`}
+            title={isNightMode ? 'Switch to Day' : 'Switch to Night'}
+          >
+            {isNightGenerating ? (
+              <Loader2 className="w-5 h-5 animate-spin text-indigo-400" />
+            ) : isNightMode ? (
+              <Sun className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            ) : (
+              <Moon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            )}
           </button>
 
           {/* BEFORE & AFTER */}

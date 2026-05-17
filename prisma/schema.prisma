@@ -118,9 +118,10 @@ model Design {
   baseImageUrl    String?          // Imaginea de baza
   
   // Rezultate Media
-  resultImageMain String?          // Imagine principală
-  resultImage360  String?          // Panoramă equirectangulară
-  resultVideoUrl  String?          // Video generat
+  resultImageMain  String?          // Imagine principală (zi)
+  resultImageNight String?          // Versiunea de noapte generată în background
+  resultImage360   String?          // Panoramă equirectangulară
+  resultVideoUrl   String?          // Video generat
   
   status          ProcessingStatus @default(PENDING) // Urmărește statusul generării AI
   
