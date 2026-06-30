@@ -1,12 +1,19 @@
+import type { Metadata } from "next";
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';
-import ProjectInterface from '@/components/project/ProjectInterface'; 
+import ProjectInterface from '@/components/project/ProjectInterface';
 
 const prisma = new PrismaClient();
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const project = await prisma.project.findUnique({ where: { id }, select: { name: true } });
+  return { title: project?.name ?? "Project" };
 }
 
 export default async function ProjectResultPage({ params }: PageProps) {

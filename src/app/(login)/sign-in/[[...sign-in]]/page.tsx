@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Sign In" };
+
 import { SignIn } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Layers, Sparkles } from "lucide-react";

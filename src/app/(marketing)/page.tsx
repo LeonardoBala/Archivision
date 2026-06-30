@@ -1,4 +1,6 @@
-// App.tsx sau src/app/page.tsx
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "AI Interior Design — Design Your Dream Space" };
+
 import React from 'react';
 
 // Importăm componentele (asigură-te că path-urile sunt corecte)

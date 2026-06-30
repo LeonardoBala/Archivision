@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Sign Up" };
+
 import { SignUp } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Layers, Sparkles, CheckCircle2 } from "lucide-react";

@@ -27,6 +27,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@prisma/client": "^5.10.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

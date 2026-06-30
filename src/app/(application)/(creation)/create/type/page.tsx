@@ -57,30 +57,24 @@ export default function InputTypePage() {
     });
   };
 
-  // --- HANDLER PENTRU FOTO (MULTIPLE) ---
+  // --- HANDLER PENTRU FOTO (SINGLE) ---
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
     setIsProcessing(true);
-    
-    try {
-        const fileArray = Array.from(files);
-        
-        // Convertim toate fisierele in Base64 in paralel
-        const base64Promises = fileArray.map(file => convertFileToBase64(file));
-        const newImagesBase64 = await Promise.all(base64Promises);
 
-        // Salvam in context datele reale (Base64), nu blob url
+    try {
+        const base64 = await convertFileToBase64(files[0]);
+
         updateData('inputType', 'photo');
-        updateData('uploadedImages', [...formData.uploadedImages, ...newImagesBase64]);
+        updateData('uploadedImages', [base64]);
 
     } catch (error) {
         console.error("Error converting images:", error);
         alert("Failed to process images. Please try again.");
     } finally {
         setIsProcessing(false);
-        // Resetam inputul ca sa putem selecta aceeasi imagine daca vrem
         if (photoInputRef.current) photoInputRef.current.value = '';
     }
   };
@@ -123,7 +117,7 @@ export default function InputTypePage() {
         isLoading={isProcessing}
     >
         {/* INPUTS HIDDEN */}
-        <input type="file" ref={photoInputRef} className="hidden" accept="image/*" multiple onChange={handlePhotoUpload} />
+        <input type="file" ref={photoInputRef} className="hidden" accept="image/*" onChange={handlePhotoUpload} />
         <input type="file" ref={blueprintInputRef} className="hidden" accept="image/*" onChange={handleBlueprintUpload} />
 
         {isProcessing ? (
@@ -133,29 +127,26 @@ export default function InputTypePage() {
             </div>
         ) : formData.uploadedImages.length > 0 ? (
             // VIEW: PREVIEW GRID
-            <div className={`grid gap-6 ${formData.inputType === 'blueprint' ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+            <div className="grid grid-cols-1 max-w-2xl mx-auto gap-6 w-full">
                 {formData.uploadedImages.map((img, idx) => (
                     <div key={idx} className="relative group aspect-video rounded-2xl overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl">
-                        {/* Aici img este acum un string Base64 lung, browserul stie sa-l afiseze */}
                         <img src={img} alt={`Input ${idx + 1}`} className="w-full h-full object-cover" />
-                        
+
                         <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg border border-white/5 text-xs font-bold text-white">
-                            {formData.inputType === 'blueprint' ? 'BLUEPRINT' : `WALL ${idx + 1}`}
+                            {formData.inputType === 'blueprint' ? 'BLUEPRINT' : 'PHOTO'}
                         </div>
-                        
+
                         <button onClick={() => removeImage(idx)} className="absolute top-4 right-4 p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all">
                             <Trash2 className="w-4 h-4" />
                         </button>
                     </div>
                 ))}
-                
-                {/* Add Button (Limitat la 4 poze) */}
-                {formData.inputType === 'photo' && formData.uploadedImages.length < 4 && (
-                    <button onClick={() => photoInputRef.current?.click()} className="aspect-video rounded-2xl border-2 border-dashed border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 flex flex-col items-center justify-center gap-3 transition-all group">
-                        <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center group-hover:bg-zinc-700">
-                            <Plus className="w-6 h-6 text-zinc-400 group-hover:text-white" />
-                        </div>
-                        <span className="text-zinc-500 font-medium group-hover:text-zinc-300">Add Photo</span>
+
+                {/* Replace button — lets user swap the photo */}
+                {formData.inputType === 'photo' && (
+                    <button onClick={() => photoInputRef.current?.click()} className="flex items-center justify-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors py-2">
+                        <Plus className="w-4 h-4" />
+                        Replace photo
                     </button>
                 )}
             </div>
@@ -168,7 +159,7 @@ export default function InputTypePage() {
                     </div>
                     <div>
                         <h3 className="text-2xl font-bold mb-2 text-white">Upload Photo</h3>
-                        <p className="text-zinc-400">Upload up to 4 photos of your room.</p>
+                        <p className="text-zinc-400">Upload a photo of your room.</p>
                     </div>
                 </button>
                 <button onClick={() => blueprintInputRef.current?.click()} className="p-10 rounded-3xl border-2 border-zinc-800 bg-zinc-900 hover:border-zinc-600 hover:bg-zinc-800 transition-all hover:scale-[1.01] flex flex-col items-center gap-6 text-center group h-80 justify-center">

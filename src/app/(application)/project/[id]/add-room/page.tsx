@@ -185,22 +185,29 @@ export default function AddRoomPage({ params }: { params: Promise<{ id: string }
               <p className="text-zinc-400 text-sm">Processing image...</p>
             </div>
           ) : formData.uploadedImages.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="max-w-2xl space-y-3">
               {formData.uploadedImages.map((img, idx) => (
                 <div key={idx} className="relative group aspect-video rounded-2xl overflow-hidden border border-white/10 bg-zinc-900 shadow-xl">
                   <img src={img} alt={`Input ${idx}`} className="w-full h-full object-cover" />
-                  <button onClick={() => removeImage(idx)} className="absolute top-2 right-2 p-1.5 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
+                  <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg border border-white/5 text-xs font-bold text-white">
+                    PHOTO
+                  </div>
+                  <button onClick={() => removeImage(idx)} className="absolute top-4 right-4 p-2 bg-red-500/80 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
               ))}
+              <button onClick={() => photoInputRef.current?.click()} className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors py-1">
+                <ImageIcon className="w-4 h-4" />
+                Replace photo
+              </button>
             </div>
           ) : (
-             <button onClick={() => photoInputRef.current?.click()} className="w-full p-10 rounded-3xl border-2 border-dashed border-zinc-800 bg-zinc-900/30 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all flex flex-col items-center gap-4 text-center group h-48 justify-center">
-                <div className="w-14 h-14 bg-zinc-800 rounded-full flex items-center justify-center group-hover:bg-zinc-700 transition-colors">
-                  <ImageIcon className="w-6 h-6 text-zinc-400 group-hover:text-white" />
-                </div>
-                <p className="text-zinc-400 font-medium">Click to upload room photo (Max 4)</p>
+            <button onClick={() => photoInputRef.current?.click()} className="w-full max-w-2xl p-10 rounded-3xl border-2 border-dashed border-zinc-800 bg-zinc-900/30 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all flex flex-col items-center gap-4 text-center group h-48 justify-center">
+              <div className="w-14 h-14 bg-zinc-800 rounded-full flex items-center justify-center group-hover:bg-zinc-700 transition-colors">
+                <ImageIcon className="w-6 h-6 text-zinc-400 group-hover:text-white" />
+              </div>
+              <p className="text-zinc-400 font-medium">Click to upload room photo</p>
             </button>
           )}
         </section>

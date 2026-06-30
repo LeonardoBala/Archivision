@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "My Projects" };
+
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { PrismaClient } from '@prisma/client';

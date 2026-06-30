@@ -655,11 +655,11 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
       </div>
 
       {/* BOTTOM CENTER MENU */}
-      <div className="fixed bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4 pointer-events-auto">
+      <div className="fixed bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4 pointer-events-none">
 
         {/* MAGIC REPLACE PANEL */}
         {isMagicToolActive && (
-          <div className="bg-black/80 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] animate-in slide-in-from-bottom-2">
+          <div className={`bg-black/80 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl flex flex-col gap-3 w-80 max-w-[calc(100vw-2rem)] animate-in slide-in-from-bottom-2 ${isDrawing ? 'pointer-events-none' : 'pointer-events-auto'}`}>
             <div className="flex justify-between items-center">
               <span className="text-sm font-bold text-white flex items-center gap-2">
                 <Wand2 className="w-4 h-4 text-blue-400"/> Magic Replace
@@ -700,7 +700,7 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
 
         {/* Zoom Slider */}
         {showZoomSlider && (
-          <div className="bg-black/60 backdrop-blur-md border border-white/20 px-4 py-3 rounded-xl shadow-2xl animate-in slide-in-from-bottom-2 flex items-center gap-3">
+          <div className="bg-black/60 backdrop-blur-md border border-white/20 px-4 py-3 rounded-xl shadow-2xl animate-in slide-in-from-bottom-2 flex items-center gap-3 pointer-events-auto">
             <span className="text-white/70 text-xs font-bold">1x</span>
             <input
               type="range" min="1" max="4" step="0.1" value={zoomLevel}
@@ -715,7 +715,7 @@ export default function ProjectInterface({ projectId, projectName, rooms }: Proj
           </div>
         )}
 
-        <div className="flex items-center gap-2 p-2 rounded-2xl bg-black/40 backdrop-blur-md border border-white/20 shadow-2xl max-w-[calc(100vw-2rem)] overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex items-center gap-2 p-2 rounded-2xl bg-black/40 backdrop-blur-md border border-white/20 shadow-2xl max-w-[calc(100vw-2rem)] overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pointer-events-auto">
 
           {/* Navigation Arrows (desktop only — mobile shows these in the info bar) */}
           {currentRoom?.designs && currentRoom.designs.length > 1 && (
